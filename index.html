@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colourful Codes</title>
+
+    <link id="theme-style" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai-sublime.min.css">
+
+    <style>
+        /* ── Variables ─────────────────────────────────────────────── */
+        :root {
+            --primary-color:  #fa975e;
+            --primary-dark:   #d87a40;
+            --primary-blue:   #6495ED;
+            --accent-green:   #7AC143;
+            --accent-orange:  #ed8936;
+            --medium-gray:    #e0e0e0;
+            --dark-gray:      #707070;
+            --success-color:  #7AC143;
+            --dark-text:      #333;
+        }
+
+        /* ── Reset ─────────────────────────────────────────────────── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fa975e, #e8864a);
+            color: var(--dark-text);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        /* ── Shell ─────────────────────────────────────────────────── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #fa975e, #e8864a);
+            padding: 25px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: 8px;
+        }
+        .header p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.9);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section {
+            padding: 30px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+        }
+        .section h2 {
+            color: var(--primary-color) !important;
+            font-size: 2rem !important;
+            font-weight: 600 !important;
+            margin-bottom: 16px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+        }
+
+        /* ── Form elements ─────────────────────────────────────────── */
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            border: 2px solid var(--medium-gray);
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            margin-bottom: 15px;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(250,151,94,0.12);
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--medium-gray);
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* ── Buttons (base) ────────────────────────────────────────── */
+        button {
+            padding: 8px 22px !important;
+            border: none;
+            border-radius: 8px !important;
+            cursor: pointer !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            font-family: inherit;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.12) !important;
+        }
+        button.active {
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.25) !important;
+            transform: translateY(1px);
+        }
+
+        /* ── Controls row ──────────────────────────────────────────── */
+        .controls {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .control-group {
+            flex: 1;
+            min-width: 170px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .control-group label {
+            font-weight: 600;
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+
+        /* Font-size buttons */
+        .font-size-btns { display: flex; gap: 6px; }
+        .font-size-btns button {
+            flex: 1;
+            background: var(--medium-gray) !important;
+            color: var(--dark-text) !important;
+            font-size: 14px !important;
+            box-shadow: none !important;
+        }
+        .font-size-btns button:hover { background: #cacaca !important; }
+
+        /* ── Named action buttons ──────────────────────────────────── */
+        .generate-btn {
+            background: var(--accent-green);
+            color: white;
+            width: 100%;
+            padding: 14px 28px !important;
+            font-size: 20px !important;
+        }
+        .generate-btn:hover { background: #5a8f32; transform: translateY(-2px); }
+
+        #format-btn {
+            background: #1abc9c;
+            color: white;
+            width: 100%;
+            padding: 11px 28px !important;
+            font-size: 17px !important;
+            margin-bottom: 10px;
+        }
+        #format-btn:hover { background: #17a589; transform: translateY(-2px); }
+
+        .format-notice {
+            font-size: 13px;
+            color: var(--dark-gray);
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            background: #f0fdf4;
+            border-left: 3px solid #1abc9c;
+            border-radius: 4px;
+        }
+
+        /* Output action buttons */
+        #line-numbers-btn         { background: var(--primary-color); color: white; }
+        #line-numbers-btn:hover   { background: var(--primary-dark); }
+        #line-numbers-btn.active  { background: var(--primary-dark); }
+
+        #word-wrap-btn            { background: #9b59b6; color: white; }
+        #word-wrap-btn:hover      { background: #7d3c98; }
+        #word-wrap-btn.active     { background: #7d3c98; }
+
+        #export-img-btn           { background: var(--accent-orange); color: white; }
+        #export-img-btn:hover     { background: #c9722a; }
+
+        #copy-btn                 { background: var(--primary-blue);  color: white; }
+        #copy-btn:hover           { background: #4b7bd4; }
+
+        /* ── Output header ─────────────────────────────────────────── */
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .output-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        /* ── Code block ────────────────────────────────────────────── */
+        pre {
+            background: #f4f4f4;
+            border-radius: 8px;
+            padding: 0;
+            overflow: auto;
+            border: 1px solid var(--medium-gray);
+            min-height: 120px;
+        }
+        pre.word-wrap code {
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 15px;
+            display: block;
+            padding: 20px;
+        }
+
+        /* ── Line numbers ──────────────────────────────────────────── */
+        pre.show-line-numbers code {
+            counter-reset: line;
+            padding: 20px 20px 20px 0;
+        }
+        pre.show-line-numbers .hljs-line { display: block; }
+        pre.show-line-numbers .hljs-line::before {
+            counter-increment: line;
+            content: counter(line);
+            display: inline-block;
+            width: 2.5em;
+            padding-right: 1em;
+            margin-right: 1em;
+            color: #888;
+            border-right: 1px solid #ddd;
+            text-align: right;
+            user-select: none;
+        }
+
+        /* ── Mode tabs ─────────────────────────────────────────────── */
+        .mode-tabs {
+            display: flex;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid var(--medium-gray);
+            width: fit-content;
+        }
+        .mode-tab {
+            padding: 10px 28px !important;
+            font-size: 15px !important;
+            font-weight: 600 !important;
+            background: #f5f5f5;
+            color: var(--dark-gray);
+            border: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            transition: background 0.2s, color 0.2s;
+        }
+        .mode-tab.active             { background: var(--primary-color); color: white; transform: none; }
+        .mode-tab:hover:not(.active) { background: #e0e0e0; }
+
+        /* ── Diff section ──────────────────────────────────────────── */
+        .diff-section         { display: none; }
+        .diff-section.visible { display: flex; }
+
+        .diff-inputs {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .diff-pane {
+            flex: 1;
+            min-width: 240px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .diff-pane label {
+            font-weight: 600;
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+        .diff-pane textarea {
+            height: 180px;
+            margin-bottom: 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+        }
+
+        .run-diff-btn       { background: #e67e22; color: white; width: 100%; padding: 14px 28px !important; font-size: 20px !important; }
+        .run-diff-btn:hover { background: #ca6f1e; transform: translateY(-2px); }
+
+        .diff-stats {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .stat-added   { color: #22863a; }
+        .stat-removed { color: #cb2431; }
+        .stat-equal   { color: #666; }
+
+        .diff-output {
+            border-radius: 8px;
+            border: 1px solid var(--medium-gray);
+            overflow: auto;
+            min-height: 80px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        .diff-line         { display: flex; align-items: stretch; }
+        .diff-line.added   { background: #e6ffed; }
+        .diff-line.removed { background: #ffeef0; }
+        .diff-line.equal   { background: #fff; }
+        .diff-gutter {
+            width: 2em;
+            text-align: center;
+            padding: 0 4px;
+            user-select: none;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .diff-line.added   .diff-gutter { color: #22863a; }
+        .diff-line.removed .diff-gutter { color: #cb2431; }
+        .diff-line.equal   .diff-gutter { color: #bbb; }
+        .diff-text {
+            padding: 0 10px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ── Header ───────────────────────────────────────────────────── -->
+    <div class="header">
+        <h1>Colourful Codes</h1>
+        <p>A clean, dependency-light tool to theme, format, diff, and share your source code.</p>
+    </div>
+
+    <!-- ── Mode selector ────────────────────────────────────────────── -->
+    <div class="section" style="border-bottom: none; padding-bottom: 16px;">
+        <div class="mode-tabs">
+            <button class="mode-tab active" id="tab-highlight">✦ Highlight Mode</button>
+            <button class="mode-tab"        id="tab-diff">⇄ Diff Mode</button>
+        </div>
+    </div>
+
+    <!-- ══════════════ HIGHLIGHT MODE — Settings ════════════════════ -->
+    <div class="section" id="highlight-section">
+        <h2>Settings</h2>
+
+        <div class="controls">
+
+            <!-- Language -->
+            <div class="control-group">
+                <label for="language">Language</label>
+                <select id="language">
+                    <option value="auto" selected>Auto Detect</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="python">Python</option>
+                    <option value="html">HTML</option>
+                    <option value="css">CSS</option>
+                    <option value="java">Java</option>
+                    <option value="cpp">C++</option>
+                    <option value="json">JSON</option>
+                    <option value="bash">Bash</option>
+                </select>
+            </div>
+
+            <!-- Theme -->
+            <div class="control-group">
+                <label for="theme">Theme</label>
+                <select id="theme">
+                    <option value="monokai-sublime" selected>Monokai</option>
+                    <option value="github">GitHub</option>
+                    <option value="github-dark">GitHub Dark</option>
+                    <option value="dracula">Dracula</option>
+                    <option value="vs2015">Visual Studio 2015</option>
+                    <option value="atom-one-dark">Atom One Dark</option>
+                    <option value="nord">Nord</option>
+                </select>
+            </div>
+
+            <!-- ✦ Font size adjuster -->
+            <div class="control-group">
+                <label>Font Size</label>
+                <div class="font-size-btns">
+                    <button id="font-decrease" title="Decrease font size">A−</button>
+                    <button id="font-increase" title="Increase font size">A+</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="format-notice">
+            💡 <strong>Auto-Format</strong> re-indents your code before highlighting.
+            Works best with JSON, HTML, JavaScript, and CSS.
+        </div>
+
+        <textarea id="source-code" placeholder="Paste your raw code here..."></textarea>
+
+        <!-- ✦ Auto-Format button -->
+        <button id="format-btn">⚙ Auto-Format Code</button>
+
+        <!-- Original Highlight button -->
+        <button class="generate-btn" id="highlight-btn">⚡ Highlight Code</button>
+    </div>
+
+    <!-- ══════════════ OUTPUT ════════════════════════════════════════ -->
+    <div class="section" id="output-section">
+        <div class="output-header">
+            <h2>Output</h2>
+            <div class="output-actions">
+                <!-- ✦ Line numbers toggle -->
+                <button id="line-numbers-btn" title="Toggle line numbers">≡ Line Nos</button>
+                <!-- ✦ Word wrap toggle -->
+                <button id="word-wrap-btn" title="Toggle word wrap">⇔ Word Wrap</button>
+                <!-- ✦ Export as PNG -->
+                <button id="export-img-btn" title="Export code as PNG image">⬇ Export PNG</button>
+                <!-- Original copy button -->
+                <button id="copy-btn" title="Copy highlighted code to clipboard">⎘ Copy</button>
+            </div>
+        </div>
+        <pre id="code-pre"><code id="output-code" class="hljs">Your highlighted code will appear here...</code></pre>
+    </div>
+
+    <!-- ══════════════ DIFF MODE ════════════════════════════════════ -->
+    <div class="section diff-section" id="diff-section">
+        <h2>Diff View</h2>
+
+        <div class="diff-inputs">
+            <div class="diff-pane">
+                <label>Original Code</label>
+                <textarea id="diff-original" placeholder="Paste the original (old) code here..."></textarea>
+            </div>
+            <div class="diff-pane">
+                <label>Modified Code</label>
+                <textarea id="diff-modified" placeholder="Paste the modified (new) code here..."></textarea>
+            </div>
+        </div>
+
+        <button class="run-diff-btn" id="run-diff-btn">⇄ Compare Code</button>
+
+        <div style="margin-top: 20px;">
+            <div class="diff-stats" id="diff-stats" style="display: none;"></div>
+            <div class="diff-output" id="diff-output"></div>
+        </div>
+    </div>
+
+</div><!-- /.container -->
+
+<!-- ── External libraries ────────────────────────────────────────── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    /* ── Element references ───────────────────────────────────────── */
+    const sourceCodeInput  = document.getElementById('source-code');
+    const outputCode       = document.getElementById('output-code');
+    const codePre          = document.getElementById('code-pre');
+    const highlightBtn     = document.getElementById('highlight-btn');
+    const copyBtn          = document.getElementById('copy-btn');
+    const languageSelect   = document.getElementById('language');
+    const themeSelect      = document.getElementById('theme');
+    const themeStyle       = document.getElementById('theme-style');
+    const lineNumbersBtn   = document.getElementById('line-numbers-btn');
+    const wordWrapBtn      = document.getElementById('word-wrap-btn');
+    const exportImgBtn     = document.getElementById('export-img-btn');
+    const formatBtn        = document.getElementById('format-btn');
+    const tabHighlight     = document.getElementById('tab-highlight');
+    const tabDiff          = document.getElementById('tab-diff');
+    const highlightSection = document.getElementById('highlight-section');
+    const outputSection    = document.getElementById('output-section');
+    const diffSection      = document.getElementById('diff-section');
+    const runDiffBtn       = document.getElementById('run-diff-btn');
+    const diffOutput       = document.getElementById('diff-output');
+    const diffStats        = document.getElementById('diff-stats');
+    const diffOriginal     = document.getElementById('diff-original');
+    const diffModified     = document.getElementById('diff-modified');
+
+    /* ── State ────────────────────────────────────────────────────── */
+    let lineNumbersEnabled  = false;
+    let wordWrapEnabled     = false;
+    let currentFontSize     = 15;
+    let lastHighlightedHTML = '';  // cached raw hljs output; re-used by renderOutput()
+
+    /* ── Mode tabs ────────────────────────────────────────────────── */
+    tabHighlight.addEventListener('click', () => {
+        tabHighlight.classList.add('active');
+        tabDiff.classList.remove('active');
+        highlightSection.style.display = '';
+        outputSection.style.display    = '';
+        diffSection.classList.remove('visible');
+    });
+
+    tabDiff.addEventListener('click', () => {
+        tabDiff.classList.add('active');
+        tabHighlight.classList.remove('active');
+        highlightSection.style.display = 'none';
+        outputSection.style.display    = 'none';
+        diffSection.classList.add('visible');
+    });
+
+    /* ── Theme switcher ───────────────────────────────────────────── */
+    themeSelect.addEventListener('change', () => {
+        themeStyle.href =
+            `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/${themeSelect.value}.min.css`;
+    });
+
+    /* ── renderOutput()
+         Applies or removes line-number <span> wrappers without
+         re-running hljs, so all toggles are instant.              ── */
+    function renderOutput() {
+        if (!lastHighlightedHTML) return;
+
+        if (lineNumbersEnabled) {
+            const lines = lastHighlightedHTML.split('\n');
+            // Remove the lone empty string caused by a trailing newline
+            if (lines[lines.length - 1] === '') lines.pop();
+            outputCode.innerHTML = lines
+                .map(line => `<span class="hljs-line">${line}</span>`)
+                .join('\n');
+        } else {
+            outputCode.innerHTML = lastHighlightedHTML;
+        }
+    }
+
+    /* ── Highlight code (original feature) ───────────────────────── */
+    highlightBtn.addEventListener('click', () => {
+        const rawCode  = sourceCodeInput.value;
+        const language = languageSelect.value;
+        if (!rawCode.trim()) return;
+
+        try {
+            let result;
+            if (language === 'auto') {
+                result = hljs.highlightAuto(rawCode);
+                outputCode.className = `hljs ${result.language || ''}`;
+            } else {
+                result = hljs.highlight(rawCode, { language });
+                outputCode.className = `hljs language-${language}`;
+            }
+            lastHighlightedHTML = result.value;
+            renderOutput();
+        } catch (err) {
+            console.error(err);
+            outputCode.textContent = 'Error processing code.';
+        }
+    });
+
+    /* ── ✦ 1. Line numbers toggle ─────────────────────────────────── */
+    lineNumbersBtn.addEventListener('click', () => {
+        lineNumbersEnabled = !lineNumbersEnabled;
+        codePre.classList.toggle('show-line-numbers', lineNumbersEnabled);
+        lineNumbersBtn.classList.toggle('active', lineNumbersEnabled);
+        renderOutput();
+    });
+
+    /* ── ✦ 2. Font size adjuster ──────────────────────────────────── */
+    document.getElementById('font-increase').addEventListener('click', () => {
+        if (currentFontSize < 28) {
+            currentFontSize++;
+            outputCode.style.fontSize = `${currentFontSize}px`;
+        }
+    });
+
+    document.getElementById('font-decrease').addEventListener('click', () => {
+        if (currentFontSize > 10) {
+            currentFontSize--;
+            outputCode.style.fontSize = `${currentFontSize}px`;
+        }
+    });
+
+    /* ── ✦ 3. Export as PNG via html2canvas ───────────────────────── */
+    exportImgBtn.addEventListener('click', () => {
+        const isEmpty = !outputCode.textContent.trim() ||
+                         outputCode.textContent.includes('will appear here');
+        if (isEmpty) {
+            alert('Please highlight some code first before exporting.');
+            return;
+        }
+
+        html2canvas(codePre, { scale: 2, useCORS: true, backgroundColor: null })
+            .then(canvas => {
+                const link    = document.createElement('a');
+                link.download = 'ColourfulCode.png';
+                link.href     = canvas.toDataURL('image/png');
+                link.click();
+            })
+            .catch(() => alert('Image export failed. Please try again.'));
+    });
+
+    /* ── ✦ 4. Word wrap toggle ────────────────────────────────────── */
+    wordWrapBtn.addEventListener('click', () => {
+        wordWrapEnabled = !wordWrapEnabled;
+        codePre.classList.toggle('word-wrap', wordWrapEnabled);
+        wordWrapBtn.classList.toggle('active', wordWrapEnabled);
+    });
+
+    /* ── Copy to clipboard (original feature) ────────────────────── */
+    copyBtn.addEventListener('click', () => {
+        const isEmpty = !outputCode.textContent.trim() ||
+                         outputCode.textContent.includes('will appear here');
+        if (isEmpty) return;
+
+        const range = document.createRange();
+        range.selectNodeContents(outputCode);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+
+        try {
+            document.execCommand('copy');
+            const orig = copyBtn.innerText;
+            copyBtn.innerText        = '✓ Copied!';
+            copyBtn.style.background = 'var(--success-color)';
+            setTimeout(() => {
+                copyBtn.innerText        = orig;
+                copyBtn.style.background = 'var(--primary-blue)';
+            }, 2000);
+        } catch (err) {
+            alert('Failed to copy. Please copy manually.');
+        }
+        sel.removeAllRanges();
+    });
+
+    /* ── ✦ 5. Auto-format code ────────────────────────────────────── */
+    /*
+       Supports:
+         · JSON   — native parse / stringify
+         · HTML   — tag-aware indent pass
+         · JS / CSS / other C-style — bracket-depth indent pass
+    */
+    formatBtn.addEventListener('click', () => {
+        const raw      = sourceCodeInput.value.trim();
+        const language = languageSelect.value;
+        if (!raw) return;
+
+        try {
+            sourceCodeInput.value = formatCode(raw, language);
+        } catch (err) {
+            alert('Could not auto-format. Check for syntax errors and try again.');
+        }
+    });
+
+    function formatCode(code, language) {
+        if (language === 'json' || looksLikeJSON(code)) {
+            return JSON.stringify(JSON.parse(code), null, 4);
+        }
+        if (language === 'html' || looksLikeHTML(code)) {
+            return formatHTML(code);
+        }
+        return formatBracketIndent(code);
+    }
+
+    function looksLikeJSON(code) {
+        const t = code.trim();
+        return t.startsWith('{') || t.startsWith('[');
+    }
+
+    function looksLikeHTML(code) {
+        return /<[a-zA-Z]/.test(code);
+    }
+
+    /* Re-indents JS/CSS/C-style by tracking bracket depth. */
+    function formatBracketIndent(code) {
+        const INDENT = '    ';
+        const lines  = code.split('\n').map(l => l.trim()).filter(l => l !== '');
+        const result = [];
+        let depth    = 0;
+
+        for (const line of lines) {
+            const leadingClosers = (line.match(/^[}\])]/) || []).length;
+            depth = Math.max(0, depth - leadingClosers);
+
+            result.push(INDENT.repeat(depth) + line);
+
+            const opens  = (line.match(/[{[(]/g) || []).length;
+            const closes = (line.match(/[}\])]/g) || []).length;
+            depth = Math.max(0, depth + opens - closes + leadingClosers);
+        }
+
+        return result.join('\n');
+    }
+
+    /* Re-indents HTML by tracking open/close tags. */
+    function formatHTML(code) {
+        const INDENT    = '    ';
+        const VOID_TAGS = new Set([
+            'area','base','br','col','embed','hr','img','input',
+            'link','meta','param','source','track','wbr'
+        ]);
+
+        const tokens = [];
+        const regex  = /(<[^>]+>)|([^<]+)/g;
+        let match;
+        while ((match = regex.exec(code)) !== null) {
+            const text = match[0].trim();
+            if (text) tokens.push(text);
+        }
+
+        let depth  = 0;
+        let output = '';
+
+        for (const token of tokens) {
+            if (token.startsWith('</')) {
+                depth = Math.max(0, depth - 1);
+                output += INDENT.repeat(depth) + token + '\n';
+            } else if (token.startsWith('<') && !token.startsWith('<!')) {
+                const tagName   = (token.match(/^<([a-zA-Z0-9-]+)/) || [])[1] || '';
+                const selfClose = token.endsWith('/>') || VOID_TAGS.has(tagName.toLowerCase());
+                output += INDENT.repeat(depth) + token + '\n';
+                if (!selfClose) depth++;
+            } else {
+                output += INDENT.repeat(depth) + token + '\n';
+            }
+        }
+
+        return output.trimEnd();
+    }
+
+    /* ── ✦ 6. Diff view (LCS-based line diff) ────────────────────── */
+    runDiffBtn.addEventListener('click', () => {
+        const original = diffOriginal.value;
+        const modified = diffModified.value;
+
+        if (!original.trim() && !modified.trim()) {
+            diffOutput.innerHTML    = '';
+            diffStats.style.display = 'none';
+            return;
+        }
+
+        const oldLines = original.split('\n');
+        const newLines = modified.split('\n');
+        const hunks    = computeDiff(oldLines, newLines);
+
+        let added = 0, removed = 0, equal = 0;
+
+        const html = hunks.map(hunk => {
+            const text = escapeHTML(hunk.text);
+            if (hunk.type === 'added') {
+                added++;
+                return `<div class="diff-line added"><span class="diff-gutter">+</span><span class="diff-text">${text}</span></div>`;
+            }
+            if (hunk.type === 'removed') {
+                removed++;
+                return `<div class="diff-line removed"><span class="diff-gutter">−</span><span class="diff-text">${text}</span></div>`;
+            }
+            equal++;
+            return `<div class="diff-line equal"><span class="diff-gutter"> </span><span class="diff-text">${text}</span></div>`;
+        }).join('');
+
+        diffOutput.innerHTML = html ||
+            '<div style="padding:16px;color:#888;">No differences found — the two snippets are identical.</div>';
+
+        diffStats.style.display = 'flex';
+        diffStats.innerHTML = `
+            <span class="stat-added">+${added} added</span>
+            <span class="stat-removed">−${removed} removed</span>
+            <span class="stat-equal">${equal} unchanged</span>
+        `;
+    });
+
+    /* Builds the LCS dynamic-programming table. */
+    function buildLCSTable(a, b) {
+        const dp = Array.from({ length: a.length + 1 }, () =>
+            new Array(b.length + 1).fill(0)
+        );
+        for (let i = 1; i <= a.length; i++) {
+            for (let j = 1; j <= b.length; j++) {
+                dp[i][j] = a[i - 1] === b[j - 1]
+                    ? dp[i - 1][j - 1] + 1
+                    : Math.max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+        return dp;
+    }
+
+    /* Walks the LCS table backwards to produce typed diff hunks. */
+    function computeDiff(oldLines, newLines) {
+        const lcs    = buildLCSTable(oldLines, newLines);
+        const result = [];
+        let i = oldLines.length;
+        let j = newLines.length;
+
+        while (i > 0 || j > 0) {
+            if (i > 0 && j > 0 && oldLines[i - 1] === newLines[j - 1]) {
+                result.push({ type: 'equal',   text: oldLines[i - 1] });
+                i--; j--;
+            } else if (j > 0 && (i === 0 || lcs[i][j - 1] >= lcs[i - 1][j])) {
+                result.push({ type: 'added',   text: newLines[j - 1] });
+                j--;
+            } else {
+                result.push({ type: 'removed', text: oldLines[i - 1] });
+                i--;
+            }
+        }
+
+        return result.reverse();
+    }
+
+    function escapeHTML(str) {
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+});
+</script>
+
+</body>
+</html>
