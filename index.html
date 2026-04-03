@@ -8,7 +8,6 @@
     <link id="theme-style" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai-sublime.min.css">
 
     <style>
-        /* ── Variables ─────────────────────────────────────────────── */
         :root {
             --primary-color:  #fa975e;
             --primary-dark:   #d87a40;
@@ -20,8 +19,6 @@
             --success-color:  #7AC143;
             --dark-text:      #333;
         }
-
-        /* ── Reset ─────────────────────────────────────────────────── */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
@@ -32,8 +29,6 @@
             padding: 20px;
             line-height: 1.6;
         }
-
-        /* ── Shell ─────────────────────────────────────────────────── */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -78,7 +73,6 @@
             gap: 10px !important;
         }
 
-        /* ── Form elements ─────────────────────────────────────────── */
         textarea {
             width: 100%;
             height: 150px;
@@ -108,7 +102,6 @@
             font-family: inherit;
         }
 
-        /* ── Buttons (base) ────────────────────────────────────────── */
         button {
             padding: 8px 22px !important;
             border: none;
@@ -129,7 +122,6 @@
             transform: translateY(1px);
         }
 
-        /* ── Controls row ──────────────────────────────────────────── */
         .controls {
             display: flex;
             gap: 20px;
@@ -149,7 +141,6 @@
             font-size: 14px;
         }
 
-        /* Font-size buttons */
         .font-size-btns { display: flex; gap: 6px; }
         .font-size-btns button {
             flex: 1;
@@ -160,7 +151,6 @@
         }
         .font-size-btns button:hover { background: #cacaca !important; }
 
-        /* ── Named action buttons ──────────────────────────────────── */
         .generate-btn {
             background: var(--accent-green);
             color: white;
@@ -190,7 +180,6 @@
             border-radius: 4px;
         }
 
-        /* Output action buttons */
         #line-numbers-btn         { background: var(--primary-color); color: white; }
         #line-numbers-btn:hover   { background: var(--primary-dark); }
         #line-numbers-btn.active  { background: var(--primary-dark); }
@@ -205,7 +194,6 @@
         #copy-btn                 { background: var(--primary-blue);  color: white; }
         #copy-btn:hover           { background: #4b7bd4; }
 
-        /* ── Output header ─────────────────────────────────────────── */
         .output-header {
             display: flex;
             justify-content: space-between;
@@ -221,7 +209,6 @@
             align-items: center;
         }
 
-        /* ── Code block ────────────────────────────────────────────── */
         pre {
             background: #f4f4f4;
             border-radius: 8px;
@@ -241,7 +228,6 @@
             padding: 20px;
         }
 
-        /* ── Line numbers ──────────────────────────────────────────── */
         pre.show-line-numbers code {
             counter-reset: line;
             padding: 20px 20px 20px 0;
@@ -260,7 +246,6 @@
             user-select: none;
         }
 
-        /* ── Mode tabs ─────────────────────────────────────────────── */
         .mode-tabs {
             display: flex;
             border-radius: 8px;
@@ -282,7 +267,6 @@
         .mode-tab.active             { background: var(--primary-color); color: white; transform: none; }
         .mode-tab:hover:not(.active) { background: #e0e0e0; }
 
-        /* ── Diff section ──────────────────────────────────────────── */
         .diff-section         { display: none; }
         .diff-section.visible { display: flex; }
 
@@ -361,13 +345,13 @@
 
 <div class="container">
 
-    <!-- ── Header ───────────────────────────────────────────────────── -->
+    <!-- Header  -->
     <div class="header">
         <h1>Colourful Codes</h1>
         <p>A clean, dependency-light tool to theme, format, diff, and share your source code.</p>
     </div>
 
-    <!-- ── Mode selector ────────────────────────────────────────────── -->
+    <!-- Mode selector  -->
     <div class="section" style="border-bottom: none; padding-bottom: 16px;">
         <div class="mode-tabs">
             <button class="mode-tab active" id="tab-highlight">✦ Highlight Mode</button>
@@ -375,7 +359,7 @@
         </div>
     </div>
 
-    <!-- ══════════════ HIGHLIGHT MODE — Settings ════════════════════ -->
+    <!-- HIGHLIGHT MODE — Settings  -->
     <div class="section" id="highlight-section">
         <h2>Settings</h2>
 
@@ -387,13 +371,6 @@
                 <select id="language">
                     <option value="auto" selected>Auto Detect</option>
                     <option value="javascript">JavaScript</option>
-                    <option value="python">Python</option>
-                    <option value="html">HTML</option>
-                    <option value="css">CSS</option>
-                    <option value="java">Java</option>
-                    <option value="cpp">C++</option>
-                    <option value="json">JSON</option>
-                    <option value="bash">Bash</option>
                 </select>
             </div>
 
@@ -436,7 +413,7 @@
         <button class="generate-btn" id="highlight-btn">⚡ Highlight Code</button>
     </div>
 
-    <!-- ══════════════ OUTPUT ════════════════════════════════════════ -->
+    <!-- OUTPUT  -->
     <div class="section" id="output-section">
         <div class="output-header">
             <h2>Output</h2>
@@ -454,7 +431,7 @@
         <pre id="code-pre"><code id="output-code" class="hljs">Your highlighted code will appear here...</code></pre>
     </div>
 
-    <!-- ══════════════ DIFF MODE ════════════════════════════════════ -->
+    <!-- DIFF MODE  -->
     <div class="section diff-section" id="diff-section">
         <h2>Diff View</h2>
 
@@ -479,14 +456,14 @@
 
 </div><!-- /.container -->
 
-<!-- ── External libraries ────────────────────────────────────────── -->
+<!-- External libraries  -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-    /* ── Element references ───────────────────────────────────────── */
+    /* Element references  */
     const sourceCodeInput  = document.getElementById('source-code');
     const outputCode       = document.getElementById('output-code');
     const codePre          = document.getElementById('code-pre');
@@ -509,14 +486,95 @@ document.addEventListener('DOMContentLoaded', () => {
     const diffStats        = document.getElementById('diff-stats');
     const diffOriginal     = document.getElementById('diff-original');
     const diffModified     = document.getElementById('diff-modified');
+    const languageCandidates = [
+        { value: 'actionscript', label: 'ActionScript' },
+        { value: 'apache', label: 'Apache' },
+        { value: 'arduino', label: 'Arduino' },
+        { value: 'armasm', label: 'ARM Assembly' },
+        { value: 'asciidoc', label: 'AsciiDoc' },
+        { value: 'bash', label: 'Bash' },
+        { value: 'basic', label: 'BASIC' },
+        { value: 'c', label: 'C' },
+        { value: 'clojure', label: 'Clojure' },
+        { value: 'cpp', label: 'C++' },
+        { value: 'csharp', label: 'C#' },
+        { value: 'css', label: 'CSS' },
+        { value: 'dart', label: 'Dart' },
+        { value: 'diff', label: 'Diff' },
+        { value: 'django', label: 'Django' },
+        { value: 'dns', label: 'DNS' },
+        { value: 'dockerfile', label: 'Dockerfile' },
+        { value: 'elm', label: 'Elm' },
+        { value: 'elixir', label: 'Elixir' },
+        { value: 'erb', label: 'ERB' },
+        { value: 'erlang', label: 'Erlang' },
+        { value: 'fsharp', label: 'F#' },
+        { value: 'go', label: 'Go' },
+        { value: 'graphql', label: 'GraphQL' },
+        { value: 'groovy', label: 'Groovy' },
+        { value: 'haml', label: 'Haml' },
+        { value: 'haskell', label: 'Haskell' },
+        { value: 'http', label: 'HTTP' },
+        { value: 'ini', label: 'INI' },
+        { value: 'java', label: 'Java' },
+        { value: 'javascript', label: 'JavaScript' },
+        { value: 'json', label: 'JSON' },
+        { value: 'kotlin', label: 'Kotlin' },
+        { value: 'less', label: 'LESS' },
+        { value: 'lisp', label: 'Lisp' },
+        { value: 'lua', label: 'Lua' },
+        { value: 'makefile', label: 'Makefile' },
+        { value: 'markdown', label: 'Markdown' },
+        { value: 'matlab', label: 'MATLAB' },
+        { value: 'nginx', label: 'Nginx' },
+        { value: 'perl', label: 'Perl' },
+        { value: 'php', label: 'PHP' },
+        { value: 'plaintext', label: 'Plaintext' },
+        { value: 'powershell', label: 'PowerShell' },
+        { value: 'python', label: 'Python' },
+        { value: 'r', label: 'R' },
+        { value: 'ruby', label: 'Ruby' },
+        { value: 'rust', label: 'Rust' },
+        { value: 'sas', label: 'SAS' },
+        { value: 'scheme', label: 'Scheme' },
+        { value: 'scala', label: 'Scala' },
+        { value: 'scss', label: 'SCSS' },
+        { value: 'shell', label: 'Shell' },
+        { value: 'sql', label: 'SQL' },
+        { value: 'swift', label: 'Swift' },
+        { value: 'twig', label: 'Twig' },
+        { value: 'typescript', label: 'TypeScript' },
+        { value: 'xml', label: 'XML' },
+        { value: 'yaml', label: 'YAML' },
+        { value: 'mathematica', label: 'Mathematica' },
+        { value: 'pgsql', label: 'PostgreSQL' },
+        { value: 'properties', label: 'Properties' },
+        { value: 'html', label: 'HTML' }
+    ];
 
-    /* ── State ────────────────────────────────────────────────────── */
+    function populateSupportedLanguages() {
+        const selected = languageSelect.value || 'javascript';
+        languageSelect.innerHTML = '';
+        languageSelect.appendChild(new Option('Auto Detect', 'auto'));
+
+        languageCandidates
+            .filter(({ value }) => Boolean(hljs.getLanguage(value)))
+            .forEach(({ value, label }) => {
+                languageSelect.appendChild(new Option(label, value));
+            });
+
+        languageSelect.value = hljs.getLanguage(selected) ? selected : 'javascript';
+    }
+
+    populateSupportedLanguages();
+
+    /* State  */
     let lineNumbersEnabled  = false;
     let wordWrapEnabled     = false;
     let currentFontSize     = 15;
     let lastHighlightedHTML = '';  // cached raw hljs output; re-used by renderOutput()
 
-    /* ── Mode tabs ────────────────────────────────────────────────── */
+    /* Mode tabs  */
     tabHighlight.addEventListener('click', () => {
         tabHighlight.classList.add('active');
         tabDiff.classList.remove('active');
@@ -533,13 +591,13 @@ document.addEventListener('DOMContentLoaded', () => {
         diffSection.classList.add('visible');
     });
 
-    /* ── Theme switcher ───────────────────────────────────────────── */
+    /* Theme switcher  */
     themeSelect.addEventListener('change', () => {
         themeStyle.href =
             `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/${themeSelect.value}.min.css`;
     });
 
-    /* ── renderOutput()
+    /* renderOutput()
          Applies or removes line-number <span> wrappers without
          re-running hljs, so all toggles are instant.              ── */
     function renderOutput() {
@@ -557,7 +615,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /* ── Highlight code (original feature) ───────────────────────── */
+    /* Highlight code (original feature)  */
     highlightBtn.addEventListener('click', () => {
         const rawCode  = sourceCodeInput.value;
         const language = languageSelect.value;
@@ -580,7 +638,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    /* ── ✦ 1. Line numbers toggle ─────────────────────────────────── */
+    /* 1. Line numbers toggle  */
     lineNumbersBtn.addEventListener('click', () => {
         lineNumbersEnabled = !lineNumbersEnabled;
         codePre.classList.toggle('show-line-numbers', lineNumbersEnabled);
@@ -588,7 +646,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderOutput();
     });
 
-    /* ── ✦ 2. Font size adjuster ──────────────────────────────────── */
+    /* 2. Font size adjuster  */
     document.getElementById('font-increase').addEventListener('click', () => {
         if (currentFontSize < 28) {
             currentFontSize++;
@@ -603,7 +661,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    /* ── ✦ 3. Export as PNG via html2canvas ───────────────────────── */
+    /* 3. Export as PNG via html2canvas  */
     exportImgBtn.addEventListener('click', () => {
         const isEmpty = !outputCode.textContent.trim() ||
                          outputCode.textContent.includes('will appear here');
@@ -622,14 +680,14 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(() => alert('Image export failed. Please try again.'));
     });
 
-    /* ── ✦ 4. Word wrap toggle ────────────────────────────────────── */
+    /* 4. Word wrap toggle  */
     wordWrapBtn.addEventListener('click', () => {
         wordWrapEnabled = !wordWrapEnabled;
         codePre.classList.toggle('word-wrap', wordWrapEnabled);
         wordWrapBtn.classList.toggle('active', wordWrapEnabled);
     });
 
-    /* ── Copy to clipboard (original feature) ────────────────────── */
+    /* Copy to clipboard (original feature)  */
     copyBtn.addEventListener('click', () => {
         const isEmpty = !outputCode.textContent.trim() ||
                          outputCode.textContent.includes('will appear here');
@@ -656,7 +714,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sel.removeAllRanges();
     });
 
-    /* ── ✦ 5. Auto-format code ────────────────────────────────────── */
+    /* 5. Auto-format code  */
     /*
        Supports:
          · JSON   — native parse / stringify
@@ -751,7 +809,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return output.trimEnd();
     }
 
-    /* ── ✦ 6. Diff view (LCS-based line diff) ────────────────────── */
+    /* 6. Diff view (LCS-based line diff)  */
     runDiffBtn.addEventListener('click', () => {
         const original = diffOriginal.value;
         const modified = diffModified.value;
